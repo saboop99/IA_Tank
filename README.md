@@ -47,7 +47,7 @@ Unity instalada no computador
 
 ## Como rodar a aplicação
 
-Baixe o projeto pelo link do github, e abra o projeto com a sua unity
+Baixe o projeto pelo link do github, abra o projeto com a sua unity e depois abra a cena WPTank
 
 ## Testes realizados
 
