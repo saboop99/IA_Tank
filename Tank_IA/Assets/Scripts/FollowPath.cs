@@ -5,7 +5,7 @@ using UnityEngine;
 public class FollowPath : MonoBehaviour
 {
     Transform goal;
-    float speed = 5.0f;
+    float speed = 20f;
     float accuracy = 1.0f;
     float rotSpeed = 2.0f;
 
@@ -34,6 +34,12 @@ public class FollowPath : MonoBehaviour
         currentWP = 0;
     }
 
+    public void GoToUsine()
+    {
+        g.AStar(currentNode, wps[10]);
+        currentWP = 0;
+    }
+
     private void LateUpdate()
     {
         if (g.getPathLength() == 0 || currentWP == g.getPathLength())
@@ -55,6 +61,7 @@ public class FollowPath : MonoBehaviour
             Vector3 direction = lookAtGoal - this.transform.position;
 
             this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * rotSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, goal.position, speed * Time.deltaTime);   
         }
     }
 }
