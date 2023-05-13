@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class FollowPath : MonoBehaviour
 {
@@ -14,12 +15,19 @@ public class FollowPath : MonoBehaviour
     GameObject currentNode;
     int currentWP = 0;
     Graph g;
+    private Ray ray;
+    private RaycastHit rayhit;
+    private NavMeshAgent agent;
+    private Camera cam;
+    private static readonly int ground = 1 << 6;
 
     private void Start()
     {
         wps = wpManager.GetComponent<WPManager>().waypoints;
         g = wpManager.GetComponent<WPManager>().graph;
         currentNode = wps[0];
+        agent = GetComponent<NavMeshAgent>();
+        cam = Camera.main;
     }
 
     public void GoToHeli()
@@ -42,6 +50,15 @@ public class FollowPath : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            ray = cam.ScreenPointToRay(Input.mousePosition);
+            if(Physics.Raycast(ray, out rayhit, 1000f, ground))
+            {
+                agent.destination = rayhit.point;
+            }
+        }
+        
         if (g.getPathLength() == 0 || currentWP == g.getPathLength())
             return;
 
